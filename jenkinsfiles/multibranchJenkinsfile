@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
+        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Deploy after build')
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building branch ${params.BRANCH_NAME}"
+            }
+        }
+        stage('Deploy') {
+            when {
+                expression { return params.DEPLOY }
+            }
+            steps {
+                echo 'Deploying...'
+            }
+        }
+    }
+}
