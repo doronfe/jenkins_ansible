@@ -1,8 +1,12 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
-        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Deploy after build')
+        string(name: 'HOST_IP', defaultValue: 'localhost', description: 'Local host IP')
+        string(name: 'USERNAME', defaultValue: 'admin', description: 'user name')
+        string(name: 'PASSWORD', defaultValue: '1', description: 'password')
+        string(name: 'SSH_KEY', defaultValue: 'key', description: 'ssh key')
+        string(name: 'PACKAGES', defaultValue: 'packages_list', description: 'list of packages')
+        string(name: 'CONFIG_FILES', defaultValue: 'admin', description: 'configuration for installed files')
     }
     stages {
         stage('Build') {
