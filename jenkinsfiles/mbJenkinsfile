@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'REMOTE_HOST_IP', defaultValue: '', description: 'IP address of the remote host')
+        choice(name: 'REMOTE_HOST_TYPE', choices: ['server', 'desktop', 'laptop'], description: 'Type of remote host')
+        string(name: 'USERNAME', defaultValue: '', description: 'Username for SSH')
+        password(name: 'PASSWORD', defaultValue: '', description: 'Password for SSH')
+        string(name: 'SSH_KEY', defaultValue: '', description: 'SSH key for authentication')
+        text(name: 'PACKAGES', defaultValue: '', description: 'List of packages to install')
+        text(name: 'CONFIG_FILES', defaultValue: '', description: 'Configuration files')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://your-repo-url.git'
+            }
+        }
+
+        stage('Setup Remote Host') {
+            steps {
+                script {
+                    def inventory = """
+                    [remote]
+                    ${params.REMOTE_HOST_IP} ansible_user=${params.USERNAME} ansible_password=${params.PASSWORD} ansible_ssh_private_key_file=${params.SSH_KEY}
+                    """
+
+                    writeFile file: 'inventory', text: inventory
+
+                    def playbook = """
+                    - hosts: remote
+                      become: yes
+                      tasks:
+                        - name: Install packages
+                          apt:
+                            name: "{{ item }}"
+                            state: present
+                          with_items:
+                            - ${params.PACKAGES.split(',').join('\n                            - ')}
+
+                        - name: Copy config files
+                          copy:
+                            src: "{{ item.src }}"
+                            dest: "{{ item.dest }}"
+                          with_items:
+                            - ${params.CONFIG_FILES.split(',').collect { "src: ${it.split(':')[0]}, dest: ${it.split(':')[1]}" }.join('\n                            - ')}
+                    """
+
+                    writeFile file: 'playbook.yml', text: playbook
+
+                    ansiblePlaybook(
+                        playbook: 'playbook.yml',
+                        inventory: 'inventory'
+                    )
+                }
+            }
+        }
+    }
+}
