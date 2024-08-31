@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {label 'ansible_workers'}
 
     parameters {
         string(name: 'REMOTE_HOST_IP', defaultValue: '', description: 'IP address of the remote host')
@@ -10,14 +10,7 @@ pipeline {
         text(name: 'PACKAGES', defaultValue: '', description: 'List of packages to install')
         text(name: 'CONFIG_FILES', defaultValue: '', description: 'Configuration files')
     }
-
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://your-repo-url.git'
-            }
-        }
-
         stage('Setup Remote Host') {
             steps {
                 script {
@@ -26,7 +19,7 @@ pipeline {
                     ${params.REMOTE_HOST_IP} ansible_user=${params.USERNAME} ansible_password=${params.PASSWORD} ansible_ssh_private_key_file=${params.SSH_KEY}
                     """
 
-                    writeFile file: 'inventory', text: inventory
+                    writeFile file: 'hosts.ini', text: inventory
 
                     def playbook = """
                     - hosts: remote
@@ -51,7 +44,7 @@ pipeline {
 
                     ansiblePlaybook(
                         playbook: 'playbook.yml',
-                        inventory: 'inventory'
+                        inventory: 'hosts.ini'
                     )
                 }
             }

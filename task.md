@@ -20,3 +20,6 @@ Create Jenkins multi-branch pipeline that will take remote host ip address, type
 ### Notes
 
 - Ansible plugin for jenkins requires additional configuration, please RTFM
+
+
+why is it a multi-branch pipeline?
