@@ -131,3 +131,13 @@ kubectl apply -f nginx.yaml
 
 
 
+
+
+
+kubectl create deployment nginx --image=nginx:latest
+kubectl create service clusterip nginx --tcp=80:8080
+
+debugging can be done via "describe"
+
+
+
