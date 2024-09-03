@@ -1,0 +1,44 @@
+September 3rd, 2024 course notes:
+back after vacation.
+
+include in each task: readme, contibuters, install
+
+------------------------
+Links:
+roadmap.sh
+
+howtoforge.com - tutorials
+
+linux-training.be
+------------------------
+deployment:
+tragedy of systemd - youtube video
+systemctl - service management
+".service" file, /etc/systemd/system
+
+deploying microservices presentation ...
+
+kubernetes concepts:
+
+pod - smallest resource in k8s, yaml, should run one container as best practice (you can run more)
+the pod gets a dynamic name
+replica set - replica of the pod, it is "down" by default and will be "up" if the pod crashes
+
+deployment has pods and replica sets.
+
+
+service - connects the deployment with the internet
+
+ingress - Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource.
+
+egress - 
+
+storage class:
+pv - persistent volume, application data
+pvc - persistent volume claim, 
+
+stateful set: has the storage inside the container
+StatefulSet is the workload API object used to manage stateful applications.
+
+Manages the deployment and scaling of a set of Pods, and provides guarantees about the ordering and uniqueness of these Pods.
+
