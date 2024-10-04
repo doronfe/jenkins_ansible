@@ -13,7 +13,21 @@ services:
             - ./jenkins_data:/var/run/docker.sock    
     
     worker1:
-        hostname: jenkins-worker1
+        hostname: worker1
+        build:
+            context: .
+            dockerfile: Dockerfile.worker
+
+        networks:
+            - jenkins
+        environment:
+            SSH_USERNAME: jenkins
+            SSH_USERPASS: jenkins
+        volumes:
+            - ./jenkins_data:/var/run/docker.sock    
+
+    worker2:
+        hostname: worker2
         build:
             context: .
             dockerfile: Dockerfile.worker
