@@ -4,7 +4,7 @@ Prerequisits:
 Install docker https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 
 - Run docker daemon to start docker in the background
-- Cloen the folder and run from the folder: "docker compose up --build -d"
+- Clone the folder and run from the folder: "docker compose up --build -d"
 - Run: "docker ps" and search for the id of the "jenkins-main"
 - Run: "docker logs <id>" and save the intial Jenkins password
 - Install suggested plugins
