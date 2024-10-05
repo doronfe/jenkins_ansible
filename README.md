@@ -1,18 +1,15 @@
-# pipelines
-
-Comments:
-- This Readme is incomplete
-- Used Dockerfiles from the course repositories as is
-- I'm cloning the git repository in each secondary pipeline, 
-  I need to do that only once in the main one...
-- Docker build doesn't work because the docker daemon is not running
-  I think I need to use a "script" with docker.build in order for that to work
+# Using the Ansible plugin on a Jenkins multi branch pipeline
 
 Prerequisits:
-Install ngrok: https://dashboard.ngrok.com/get-started/setup/linux
 Install docker https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 
-Trigger the main pipeline with:
-curl -X POST "https://4c33-77-126-13-88.ngrok-free.app/job/main_pipeline/build" --user admin:11f63051f95e49fd7bbe967a39644f9eaa
-
-replace https://4c33-77-126-13-88.ngrok-free.app with the jenkins host address
+- Run docker daemon to start docker in the background
+- Cloen the folder and run from the folder: "docker compose up --build -d"
+- Run: "docker ps" and search for the id of the "jenkins-main"
+- Run: "docker logs <id>" and save the intial Jenkins password
+- Install suggested plugins
+- enter details...
+- set up two nodes
+- set up multi branch pipeline - use git for source and jenkinsfile for build configuration
+- install ansible plugin in Jenkins
+- start the job
